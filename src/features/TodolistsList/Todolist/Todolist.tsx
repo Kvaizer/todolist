@@ -25,8 +25,10 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
         if (demo) {
             return
         }
-        fetchTasks(props.todolist.id)
-    }, [fetchTasks, props.todolist.id, demo])
+        if(!props.tasks.length) {
+            fetchTasks(props.todolist.id)
+        }
+    }, [fetchTasks, props.todolist.id, props.tasks.length, demo])
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
 
@@ -91,7 +93,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.todolist.id}/>)
             }
-            {!tasksForTodolist.length && <div style={{padding: '10px', color: 'grey'}}>No task</div>}
+            {!tasksForTodolist.length && <div style={{padding: '10px', color: 'grey'}}>No tasks</div>}
         </div>
         <div style={{paddingTop: '10px'}}>
             {renderFilterButton('all', 'default', 'All')}
